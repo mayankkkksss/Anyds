@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Anyds Design Tokens System — Phase 2/3 Specification
+   Mathematically verified linear-sRGB relative luminance and contrast ratios.
+   ========================================================================== */
+
+:root {
+  /* Common Spacing Tokens */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+
+  /* Common Corner Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-card: 16px;
+  --radius-hero: 20px;
+  --radius-full: 9999px;
+
+  /* Grid & Breakpoints */
+  --grid-columns: 12;
+  --grid-gap: 24px;
+  --page-margin: 24px;
+  --max-content-width: 1400px;
+
+  /* Transitions */
+  --transition-fast: 120ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   DARK THEME TOKENS (Default Obsidian Slate)
+   ========================================================================== */
+[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  /* Canvas & Surfaces */
+  --color-canvas-base:       #0C0E12; /* Canvas (Relative Luminance Y = 0.0044) */
+  --color-surface-card:      #14171E; /* Primary card surface (Luminance Y = 0.0086) */
+  --color-surface-subtle:    #191D26; /* Inset regions, chips, inputs (Y = 0.0123) */
+  --color-surface-hover:     #1E232E; /* Interactive hover step */
+  --color-surface-active:    #242936; /* Pressed active step */
+
+  /* Hairline Borders */
+  --color-border-subtle:     rgba(255, 255, 255, 0.08); /* 1px structural division */
+  --color-border-strong:     rgba(255, 255, 255, 0.16); /* Interactive borders */
+  --color-border-focus:      #D4EB1A;                   /* 2px keyboard focus ring */
+
+  /* Typographic Ink (Exact Verified Contrast on #14171E / #0C0E12) */
+  --color-text-primary:      #F3F4F6; /* Y = 0.9041 | 16.3:1 on card / 17.6:1 on canvas (WCAG AAA) */
+  --color-text-muted:        #9CA3AF; /* Y = 0.3636 | 7.1:1 on card / 7.6:1 on canvas (WCAG AAA >= 7:1) */
+  --color-text-dim:          #88909E; /* Y = 0.2765 | 5.6:1 on card / 6.0:1 on canvas (WCAG AA normal >= 4.5:1) */
+
+  /* Signal Citron Accent */
+  --color-accent-signal:     #D4EB1A; /* Y = 0.7349 | 13.4:1 on card / 14.4:1 on canvas (WCAG AAA) */
+  --color-accent-ink:        #0C0E12; /* Text on citron: 14.4:1 (WCAG AAA) */
+  --color-accent-glow:       rgba(212, 235, 26, 0.18); /* Focus glow */
+
+  /* Selective Liquid Glass Chrome (Progressive Enhancement Baseline) */
+  --glass-fallback-bg:       #14171E;                   /* Baseline solid surface */
+  --glass-fallback-border:   rgba(255, 255, 255, 0.16); /* Baseline solid border */
+  --glass-enhanced-bg:       rgba(20, 23, 30, 0.78);    /* Translucent surface under blur */
+  --glass-border:            rgba(255, 255, 255, 0.14);
+  --glass-highlight:         inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  --glass-shadow:            0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   LIGHT THEME TOKENS (Architectural Gypsum Bone)
+   ========================================================================== */
+[data-theme="light"] {
+  /* Canvas & Surfaces */
+  --color-canvas-base:       #F7F7F5; /* Canvas (Relative Luminance Y = 0.9289) */
+  --color-surface-card:      #FFFFFF; /* Pure card surface (Luminance Y = 1.0000) */
+  --color-surface-subtle:    #EFEFEA; /* Inset regions, chips, inputs (Y = 0.8602) */
+  --color-surface-hover:     #E8E8E2; /* Interactive hover step */
+  --color-surface-active:    #DFDFD8; /* Pressed active step */
+
+  /* Hairline Borders */
+  --color-border-subtle:     rgba(0, 0, 0, 0.08); /* 1px structural division */
+  --color-border-strong:     rgba(0, 0, 0, 0.16); /* Interactive borders */
+  --color-border-focus:      #3B5804;             /* 2px keyboard focus ring */
+
+  /* Typographic Ink (Exact Verified Contrast on #FFFFFF / #F7F7F5) */
+  --color-text-primary:      #111315; /* Y = 0.0064 | 18.6:1 on card / 17.4:1 on canvas (WCAG AAA) */
+  --color-text-muted:        #52565E; /* Y = 0.0926 | 7.4:1 on card / 6.9:1 on canvas (WCAG AA normal text) */
+  --color-text-dim:          #666B75; /* Y = 0.1462 | 5.4:1 on card / 5.0:1 on canvas (WCAG AA normal >= 4.5:1) */
+
+  /* Signal Citron Accent (Calibrated for Light Contrast) */
+  --color-accent-signal:     #3B5804; /* Y = 0.0792 | 8.1:1 on card / 7.6:1 on canvas (WCAG AAA >= 7:1) */
+  --color-accent-ink:        #FFFFFF; /* Text on citron: 8.1:1 (WCAG AAA) */
+  --color-accent-glow:       rgba(59, 88, 4, 0.16);
+
+  /* Selective Liquid Glass Chrome (Progressive Enhancement Baseline) */
+  --glass-fallback-bg:       #FFFFFF;                   /* Baseline solid surface */
+  --glass-fallback-border:   rgba(0, 0, 0, 0.12);       /* Baseline solid border */
+  --glass-enhanced-bg:       rgba(255, 255, 255, 0.84); /* Translucent surface under blur */
+  --glass-border:            rgba(0, 0, 0, 0.09);
+  --glass-highlight:         inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  --glass-shadow:            0 8px 32px rgba(0, 0, 0, 0.06);
+}
