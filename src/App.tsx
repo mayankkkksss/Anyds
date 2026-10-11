@@ -7,6 +7,7 @@ import { GlassBar } from './components/common/GlassBar';
 import { Button } from './components/common/Button';
 import { CopyButton } from './components/common/CopyButton';
 import { BackToTop } from './components/common/BackToTop';
+import { AnydsLogo } from './components/common/AnydsLogo';
 import { CookieBanner } from './components/common/CookieBanner';
 import { KeyboardShortcutsModal } from './components/common/KeyboardShortcutsModal';
 import { HeroSection } from './components/hero/HeroSection';
@@ -320,9 +321,12 @@ const AppInner: React.FC = () => {
       <footer style={{ marginTop: 'auto', borderTop: '1px solid var(--color-border-subtle)', background: 'var(--color-surface-subtle)', padding: 'var(--space-xl) 0' }}>
         <div className="container">
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-            <div>
-              <span className="type-card-title" style={{ fontSize: '14px' }}>Anyds Creative Engineering</span>
-              <div className="type-meta" style={{ marginTop: '2px' }}>Design System Specification Revision 9 · 100% WCAG AAA Compliant</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <AnydsLogo variant="mark" height={22} aria-label="Anyds" />
+              <div>
+                <span className="type-card-title" style={{ fontSize: '14px' }}>Anyds Creative Engineering</span>
+                <div className="type-meta" style={{ marginTop: '2px' }}>Design System Specification Revision 9 · 100% WCAG AAA Compliant</div>
+              </div>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

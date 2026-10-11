@@ -5,6 +5,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { ThemeToggle } from '../common/ThemeToggle';
+import { AnydsLogo } from '../common/AnydsLogo';
 
 export interface MobileNavDrawerProps {
   isOpen: boolean;
@@ -109,8 +110,7 @@ export const MobileNavDrawer: React.FC<MobileNavDrawerProps> = ({
       >
         <div className="mobile-nav-header">
           <div className="navbar-brand">
-            <span className="navbar-logo-glyph">A</span>
-            <span className="navbar-brand-title">Anyds</span>
+            <AnydsLogo variant="full" height={28} className="navbar-brand-logo" />
           </div>
 
           <button

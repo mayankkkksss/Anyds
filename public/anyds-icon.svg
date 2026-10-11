@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="7" fill="#111111"/>
+  <!-- Left Inward-Tilted Leg -->
+  <polygon points="9,7 14.5,6 8,26 3,26" fill="#F7F6F0"/>
+  <!-- Right Inward-Tilted Leg -->
+  <polygon points="17.5,6 23,7 29,26 24,26" fill="#F7F6F0"/>
+  <!-- Yellow-Lime Accent Crossbar -->
+  <rect x="9" y="17" width="14" height="3.2" fill="#D4EB1A"/>
+</svg>

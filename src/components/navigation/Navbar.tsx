@@ -8,6 +8,7 @@ import { GlassBar } from '../common/GlassBar';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { MobileNavDrawer } from './MobileNavDrawer';
 import { useSavedReferences } from '../../hooks/useSavedReferences';
+import { AnydsLogo } from '../common/AnydsLogo';
 
 export interface NavbarProps {
   onOpenSearch?: () => void;
@@ -38,8 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, activePath = '#dis
           <div className="navbar-inner">
             {/* Left: Brand Identity */}
             <a href="#discover" className="navbar-brand" aria-label="Anyds Homepage">
-              <span className="navbar-logo-glyph">A</span>
-              <span className="navbar-brand-title">Anyds</span>
+              <AnydsLogo variant="full" height={28} className="navbar-brand-logo" />
               <span className="navbar-brand-meta">Curated Motion</span>
             </a>
 

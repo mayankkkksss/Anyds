@@ -279,6 +279,16 @@
   user-select: none;
 }
 
+.navbar-brand-logo {
+  display: block;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.navbar-brand:hover .navbar-brand-logo {
+  transform: scale(1.02);
+}
+
 .navbar-logo-glyph {
   width: 32px;
   height: 32px;
