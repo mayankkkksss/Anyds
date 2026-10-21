@@ -194,7 +194,7 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
                   <pre className="featured-blueprint-code font-mono">{springRef.motion.recreationBrief}</pre>
                 </div>
 
-                <div style={{ marginTop: '20px', display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <div style={{ marginTop: '20px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                   <Button
                     variant="primary"
                     size="md"
@@ -207,6 +207,24 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
                       <polyline points="12 5 19 12 12 19" />
                     </svg>
                   </Button>
+
+                  {springRef.provenance.originUrl && (
+                    <a
+                      href={springRef.provenance.originUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn--secondary"
+                      style={{ padding: '8px 16px', fontSize: '13px' }}
+                      aria-label={`Visit original source for ${springRef.title} on ${springRef.provenance.platform}`}
+                    >
+                      <span>Visit Original Source</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                      </svg>
+                    </a>
+                  )}
                 </div>
               </div>
             </article>
