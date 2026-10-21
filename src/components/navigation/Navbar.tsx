@@ -1,5 +1,5 @@
 /**
- * Anyds Navigation Bar — Milestone 3 Specification
+ * Anyds Navigation Bar — Refined for Clarity
  * Responsive desktop navigation and mobile drawer integration encased in restrained Liquid Glass.
  */
 
@@ -52,6 +52,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, activePath = '#dis
                 <span>Discover</span>
               </a>
               <a
+                href="#discover"
+                className={`navbar-link ${activePath === '#browse' ? 'is-active' : ''}`}
+              >
+                <span>Browse</span>
+              </a>
+              <a
                 href="#collections"
                 className={`navbar-link ${activePath === '#collections' ? 'is-active' : ''}`}
               >
@@ -69,40 +75,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, activePath = '#dis
                 )}
               </a>
               <a
-                href="#manifesto"
-                className={`navbar-link ${activePath === '#manifesto' ? 'is-active' : ''}`}
+                href="#about"
+                className={`navbar-link ${activePath === '#about' ? 'is-active' : ''}`}
               >
-                <span>Manifesto</span>
+                <span>About</span>
               </a>
             </nav>
 
-            {/* Right: Actions, Theme Toggle, & Mobile Menu Toggle */}
+            {/* Right: Theme Toggle & Mobile Menu Toggle */}
             <div className="navbar-actions">
-              {/* Quick Search Shortcut Trigger */}
-              <button
-                type="button"
-                className="navbar-search-btn"
-                onClick={onOpenSearch}
-                aria-label="Search references (Cmd+K)"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <span>Search</span>
-                <kbd className="navbar-search-shortcut">⌘K</kbd>
-              </button>
-
               {/* Theme Toggle */}
               <ThemeToggle />
 

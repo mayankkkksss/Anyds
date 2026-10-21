@@ -1,5 +1,5 @@
 /**
- * Anyds Mobile Navigation Drawer — Milestone 3 Specification
+ * Anyds Mobile Navigation Drawer — Refined for Clarity
  * Accessible, keyboard-trapped slide-out drawer with Escape-to-close and body scroll lock.
  */
 
@@ -142,7 +142,13 @@ export const MobileNavDrawer: React.FC<MobileNavDrawerProps> = ({
             <li>
               <a href="#discover" className="mobile-nav-link" onClick={handleLinkClick}>
                 <span>Discover</span>
-                <span className="type-meta">All Motion</span>
+                <span className="type-meta">Featured highlights</span>
+              </a>
+            </li>
+            <li>
+              <a href="#discover" className="mobile-nav-link" onClick={handleLinkClick}>
+                <span>Browse</span>
+                <span className="type-meta">Full archive</span>
               </a>
             </li>
             <li>
@@ -162,9 +168,9 @@ export const MobileNavDrawer: React.FC<MobileNavDrawerProps> = ({
               </a>
             </li>
             <li>
-              <a href="#manifesto" className="mobile-nav-link" onClick={handleLinkClick}>
-                <span>Manifesto</span>
-                <span className="type-meta">Curation Rules</span>
+              <a href="#about" className="mobile-nav-link" onClick={handleLinkClick}>
+                <span>About</span>
+                <span className="type-meta">Curation & provenance</span>
               </a>
             </li>
           </ul>
