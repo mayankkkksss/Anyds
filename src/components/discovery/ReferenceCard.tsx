@@ -1,13 +1,12 @@
 /**
- * Anyds ReferenceCard Component — Milestone 4 Specification
+ * Anyds ReferenceCard Component — Simplified for Clarity
  * Editorial card shell with 16:10 aspect ratio media container, strict content-truth labeling,
- * reserved grid anchor hook for ref-01 (#grid-card-anchor-01), copy button, and full keyboard accessibility.
+ * reserved grid anchor hook for ref-01 (#grid-card-anchor-01), and full keyboard accessibility.
  */
 
 import React from 'react';
 import { Reference } from '../../types/models';
 import { SourceBadge } from '../common/SourceBadge';
-import { CopyButton } from '../common/CopyButton';
 import { useSavedReferences } from '../../hooks/useSavedReferences';
 import { useToast } from '../../context/ToastContext';
 
@@ -61,35 +60,23 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
     >
       {/* 16:10 Media Stage Container */}
       <div className="reference-card-media-stage">
-        {/* Placeholder / Video media poster */}
+        {/* Static Poster / Preview */}
         <div className="reference-card-media-canvas">
           <div
             className="reference-card-media-gradient"
             style={{
-              background: `radial-gradient(circle at 60% 40%, rgba(212, 235, 26, 0.12) 0%, transparent 70%), var(--color-surface-subtle)`,
+              background: `radial-gradient(circle at 60% 40%, rgba(212, 235, 26, 0.08) 0%, transparent 70%), var(--color-surface-subtle)`,
             }}
           />
-          {/* Visual animation simulation preview graphic */}
+          {/* Visual technique label */}
           <div className="reference-card-media-preview" aria-hidden="true">
-            <div className="reference-card-preview-mesh">
-              <span className="reference-card-preview-tag">{reference.motion.technique}</span>
-            </div>
+            <span className="reference-card-preview-tag">{reference.motion.technique}</span>
           </div>
         </div>
 
-        {/* Top Badges Overlay: Duration, Copy Rationale & Bookmark */}
+        {/* Top Overlay: Save Button Only */}
         <div className="reference-card-media-overlay">
-          <span className="type-meta reference-card-duration-chip">
-            {reference.media.durationSec.toFixed(1)}s · {reference.motion.physicsModel}
-          </span>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <CopyButton
-              value={`${reference.title} (${reference.motion.technique}) — ${reference.motion.rationale}`}
-              label="Copy Spec"
-              successMessage="Copied motion spec"
-            />
-
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <button
               type="button"
               className={`reference-card-save-btn ${saved ? 'is-saved' : ''}`}
@@ -126,12 +113,12 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
           </div>
         </div>
 
-        {/* Substantive Motion Technique Explanation */}
+        {/* Full Motion Technique Explanation — No Line Clamp */}
         <p className="type-body reference-card-rationale">
           {reference.motion.rationale}
         </p>
 
-        {/* Footer: Provenance Chip & Tags */}
+        {/* Footer: Provenance Chip & Single Category Label */}
         <div className="reference-card-footer">
           <SourceBadge
             platform={reference.provenance.platform}
@@ -140,12 +127,19 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
             sampleNotice={reference.sampleNotice}
           />
 
-          <div className="reference-card-tags">
-            {reference.tags.slice(0, 2).map((tag) => (
-              <span key={tag} className="type-meta reference-card-tag-chip">
-                #{tag}
+          <div className="reference-card-category">
+            {reference.category && (
+              <span className="type-chip reference-card-category-chip">
+                {({
+                  'spring-physics': 'Spring Physics',
+                  'kinetic-typography': 'Kinetic Type',
+                  'webgl-shader': 'WebGL Shaders',
+                  'spatial-ui': 'Spatial UI',
+                  'layout-choreography': 'Layout FLIP',
+                  'tactile-interaction': 'Tactile Sheets',
+                }[reference.category] || reference.category)}
               </span>
-            ))}
+            )}
           </div>
         </div>
       </div>

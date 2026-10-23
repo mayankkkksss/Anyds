@@ -55,3 +55,12 @@
   border-radius: var(--radius-md);
   padding: 8px 14px;
 }
+
+/* Solid Card Variant — Non-glass surface for content cards */
+.solid-card {
+  border-radius: var(--radius-card);
+  padding: var(--space-lg);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--glass-shadow);
+}

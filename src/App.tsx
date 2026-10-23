@@ -13,7 +13,7 @@ import { HeroSection } from './components/hero/HeroSection';
 import { CuratorialPillars } from './components/hero/CuratorialPillars';
 import { FeaturedSpread } from './components/editorial/FeaturedSpread';
 import { SearchModal } from './components/search/SearchModal';
-import { FilterBar } from './components/discovery/FilterBar';
+import { SearchCombobox } from './components/search/SearchCombobox';
 import { DiscoveryGrid } from './components/discovery/DiscoveryGrid';
 import { mockReferences, mockCollections } from './data';
 import {
@@ -144,16 +144,132 @@ const AppInner: React.FC = () => {
             </div>
           </div>
 
-          {/* Multi-Dimensional Filter Bar */}
-          <div style={{ marginBottom: 'var(--space-xl)' }} aria-label="Discovery Filters">
-            <FilterBar
-              criteria={filterCriteria}
-              onCriteriaChange={setFilterCriteria}
-              collections={mockCollections}
-              totalCount={mockReferences.length}
-              filteredCount={filteredReferences.length}
-              savedCount={savedCount}
-            />
+          {/* Unified Glass Command Bar — Sticky Search + Filters */}
+          <div className="browse-command-bar liquid-glass" style={{ position: 'sticky', top: '88px', zIndex: 50, marginBottom: 'var(--space-xl)' }}>
+            <div className="browse-command-bar-inner" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md) var(--space-lg)' }}>
+              {/* Inline Search Combobox */}
+              <div style={{ flex: 1, minWidth: '280px', maxWidth: '520px' }} aria-label="Archive Search">
+                <SearchCombobox
+                  references={mockReferences}
+                  initialQuery={filterCriteria.query}
+                  onSelectReference={handleSelectReference}
+                  onApplyQuery={(query) => setFilterCriteria((prev) => ({ ...prev, query }))}
+                  placeholder="Search archive by title, creator, technique, or tag…"
+                />
+              </div>
+
+              {/* Primary Category Pills */}
+              <div className="filter-bar-categories" role="group" aria-label="Filter by Motion Category" style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-xs)' }}>
+                <button
+                  type="button"
+                  className={`filter-pill ${filterCriteria.category === 'all' ? 'is-active' : ''}`}
+                  onClick={() => setFilterCriteria((prev) => ({ ...prev, category: 'all' }))}
+                  aria-pressed={filterCriteria.category === 'all'}
+                >
+                  All
+                </button>
+                {(['spring-physics', 'kinetic-typography', 'webgl-shader', 'spatial-ui'] as const).map((cat) => {
+                  const labels: Record<string, string> = {
+                    'spring-physics': 'Spring',
+                    'kinetic-typography': 'Kinetic Type',
+                    'webgl-shader': 'WebGL',
+                    'spatial-ui': 'Spatial',
+                  };
+                  const isActive = filterCriteria.category === cat;
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      className={`filter-pill ${isActive ? 'is-active' : ''}`}
+                      onClick={() => setFilterCriteria((prev) => ({ ...prev, category: cat }))}
+                      aria-pressed={isActive}
+                    >
+                      {labels[cat]}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Saved Toggle */}
+              <button
+                type="button"
+                className={`filter-pill filter-pill--saved ${filterCriteria.savedOnly ? 'is-active' : ''}`}
+                onClick={() => setFilterCriteria((prev) => ({ ...prev, savedOnly: !prev.savedOnly }))}
+                aria-pressed={filterCriteria.savedOnly}
+                aria-label={`Show saved references only (${savedCount} saved)`}
+              >
+                <span>★ Saved</span>
+                {savedCount > 0 && <span className="navbar-counter-badge">{savedCount}</span>}
+              </button>
+
+              {/* Advanced Filters Disclosure */}
+              <details className="filter-bar-advanced" style={{ position: 'relative' }}>
+                <summary className="filter-pill filter-pill--advanced" style={{ cursor: 'pointer', listStyle: 'none', display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                  <span>More filters</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </summary>
+                <div className="filter-bar-advanced-panel" style={{ position: 'absolute', top: 'calc(100% + var(--space-xs))', right: 0, zIndex: 60, background: 'var(--color-surface-card)', border: '1px solid var(--color-border-strong)', borderRadius: 'var(--radius-card)', padding: 'var(--space-md)', boxShadow: 'var(--glass-shadow)', minWidth: '320px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+                    {/* Collection Filter */}
+                    <div className="filter-select-wrapper">
+                      <label htmlFor="filter-collection-select" className="sr-only">Filter by Collection</label>
+                      <select
+                        id="filter-collection-select"
+                        className="filter-select"
+                        value={filterCriteria.collectionSlug}
+                        onChange={(e) => setFilterCriteria((prev) => ({ ...prev, collectionSlug: e.target.value }))}
+                      >
+                        <option value="all">All Curated Collections</option>
+                        {mockCollections.map((col) => (
+                          <option key={col.id} value={col.slug}>{col.title}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Physics Model Filter */}
+                    <div className="filter-select-wrapper">
+                      <label htmlFor="filter-physics-select" className="sr-only">Filter by Physics Model</label>
+                      <select
+                        id="filter-physics-select"
+                        className="filter-select"
+                        value={filterCriteria.physicsModel}
+                        onChange={(e) => setFilterCriteria((prev) => ({ ...prev, physicsModel: e.target.value as any }))}
+                      >
+                        <option value="all">All Physics Models</option>
+                        {(['spring', 'cubic-bezier', 'inertia', 'simulation'] as const).map((model) => (
+                          <option key={model} value={model}>Physics: {model}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Reset Button */}
+                    <button
+                      type="button"
+                      className="btn btn--ghost"
+                      onClick={() => setFilterCriteria(DEFAULT_FILTER_CRITERIA)}
+                      style={{ alignSelf: 'flex-start', marginTop: 'var(--space-xs)' }}
+                    >
+                      Reset all filters
+                    </button>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            {/* Results Counter */}
+            <div className="filter-bar-status" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', borderTop: '1px solid var(--color-border-subtle)', paddingTop: 'var(--space-sm)', marginTop: 'var(--space-sm)', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
+              <span className="type-meta">
+                Showing <strong style={{ color: 'var(--color-text-primary)' }}>{filteredReferences.length}</strong> of {mockReferences.length} references
+                {filterCriteria.query && ` for "${filterCriteria.query}"`}
+              </span>
+              {(filterCriteria.category !== 'all' || filterCriteria.collectionSlug !== 'all' || filterCriteria.physicsModel !== 'all' || filterCriteria.savedOnly) && (
+                <button type="button" className="btn btn--ghost btn--sm" onClick={() => setFilterCriteria(DEFAULT_FILTER_CRITERIA)}>
+                  Clear filters
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Responsive Discovery Grid Shell */}

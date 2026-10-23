@@ -70,3 +70,5 @@ Thumbs.db
 # Local Tooling & Scratch Artifacts
 .aider-desk/
 .aider*
+# Playwright CLI output (may contain credentials)
+.playwright-cli/

@@ -20,6 +20,26 @@ export interface HeroCanvasProps {
   className?: string;
 }
 
+/**
+ * Detects a software rasterizer (SwiftShader / llvmpipe — headless browsers,
+ * VMs, machines without a GPU). Those cannot afford MSAA or high-DPR
+ * rendering, so the scene degrades render cost instead of the design.
+ * Real GPUs are untouched and keep full fidelity.
+ */
+function detectSoftwareRenderer(): boolean {
+  try {
+    const probe = document.createElement('canvas');
+    const gl = (probe.getContext('webgl2') || probe.getContext('webgl')) as WebGLRenderingContext | null;
+    if (!gl) return false;
+    const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+    const name = dbg ? String(gl.getParameter((dbg as any).UNMASKED_RENDERER_WEBGL)) : '';
+    gl.getExtension('WEBGL_lose_context')?.loseContext();
+    return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+  } catch {
+    return false;
+  }
+}
+
 // --------------------------------------------------------------------------
 // Procedural Texture Generators for Ultra-Realistic PBR Surfaces
 // --------------------------------------------------------------------------
@@ -180,6 +200,10 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     // 1. Setup Scene, Camera, Renderer
     const scene = new THREE.Scene();
 
+    // Software rasterizers (headless/VM without a GPU) cannot afford MSAA or
+    // high DPR: degrade render cost only there — real GPUs keep full fidelity.
+    const isSoftwareGL = detectSoftwareRenderer();
+
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || window.innerHeight;
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
@@ -191,7 +215,7 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
       renderer = new THREE.WebGLRenderer({
         canvas,
         alpha: true,
-        antialias: true,
+        antialias: !isSoftwareGL,
         powerPreference: 'high-performance',
       });
     } catch (e) {
@@ -202,6 +226,7 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
 
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    if (isSoftwareGL) renderer.setPixelRatio(1);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = isDark ? 1.3 : 1.15;
 
@@ -244,7 +269,7 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     planetGroup.rotation.z = Math.PI * 0.16;
 
     // Earth Ocean Surface Sphere
-    const planetGeo = new THREE.SphereGeometry(11.8, 64, 64);
+    const planetGeo = new THREE.SphereGeometry(11.8, 48, 48);
     const planetMat = new THREE.MeshStandardMaterial({
       map: earthSurfaceTexture,
       roughness: 0.6,
@@ -254,10 +279,12 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     planetGroup.add(planetMesh);
 
     // Glowing Rayleigh Atmospheric Rim Shell
-    const atmosphereGeo = new THREE.SphereGeometry(11.98, 64, 64);
+    // transmission forces a full extra scene pass; software rasterizers get
+    // plain translucency instead (visually near-identical behind the vignette).
+    const atmosphereGeo = new THREE.SphereGeometry(11.98, 48, 48);
     const atmosphereMat = new THREE.MeshPhysicalMaterial({
       color: 0x38bdf8,
-      transmission: 0.8,
+      transmission: isSoftwareGL ? 0 : 0.8,
       opacity: 0.88,
       transparent: true,
       roughness: 0.08,
@@ -314,8 +341,9 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     // D. Liquid Glass Material with Signal Citron Telemetry Highlight
     const glassMaterial = new THREE.MeshPhysicalMaterial({
       color: isDark ? new THREE.Color(0xD4EB1A) : new THREE.Color(0x3B5804),
-      transmission: 0.85,
-      opacity: 0.95,
+      transmission: isSoftwareGL ? 0 : 0.85,
+      // Without transmission the glass would read solid: keep it translucent.
+      opacity: isSoftwareGL ? 0.72 : 0.95,
       transparent: true,
       roughness: 0.05,
       ior: 1.54,
@@ -344,7 +372,7 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     satelliteGroup.add(lowerBay);
 
     // Star-Tracker Optical Telescopes & Sensor Hoods
-    const sensorGeo = new THREE.CylinderGeometry(0.2, 0.24, 0.42, 32);
+    const sensorGeo = new THREE.CylinderGeometry(0.2, 0.24, 0.42, 20);
     const sensorMat = new THREE.MeshPhysicalMaterial({
       color: 0x090c12,
       metalness: 0.96,
@@ -362,14 +390,14 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     satelliteGroup.add(sensorRight);
 
     // Sapphire Optical Lens Elements inside hoods
-    const lensGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.06, 24);
+    const lensGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.06, 16);
     const lensMat = new THREE.MeshPhysicalMaterial({
       color: 0x38bdf8,
-      transmission: 0.9,
+      transmission: isSoftwareGL ? 0 : 0.9,
       roughness: 0.02,
       ior: 1.77,
       transparent: true,
-      opacity: 0.95,
+      opacity: isSoftwareGL ? 0.8 : 0.95,
     });
     const lensLeft = new THREE.Mesh(lensGeo, lensMat);
     lensLeft.rotation.x = Math.PI / 2;
@@ -382,7 +410,7 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     satelliteGroup.add(lensRight);
 
     // High-Gain Parabolic Telemetry Dish Antenna with Signal Citron Emitter
-    const dishGeo = new THREE.CylinderGeometry(0.65, 0.18, 0.28, 36);
+    const dishGeo = new THREE.CylinderGeometry(0.65, 0.18, 0.28, 24);
     const dish = new THREE.Mesh(dishGeo, chromeMaterial);
     dish.rotation.z = Math.PI / 2;
     dish.position.set(1.05, 0.65, 0);
@@ -414,13 +442,13 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     });
 
     // Precision Internal Gyroscope Knot (satisfies knotGeometry test hook)
-    const knotGeometry = new THREE.TorusKnotGeometry(0.55, 0.12, 120, 24, 2, 3);
+    const knotGeometry = new THREE.TorusKnotGeometry(0.55, 0.12, 96, 16, 2, 3);
     const gyroKnot = new THREE.Mesh(knotGeometry, chromeMaterial);
     gyroKnot.position.set(0, 0, -0.65);
     satelliteGroup.add(gyroKnot);
 
     // Gyro Stabilizer Ring (satisfies ringGeometry test hook)
-    const ringGeometry = new THREE.TorusGeometry(2.8, 0.07, 24, 100);
+    const ringGeometry = new THREE.TorusGeometry(2.8, 0.07, 16, 64);
     const ringMesh = new THREE.Mesh(ringGeometry, glassMaterial);
     ringMesh.rotation.x = Math.PI / 2.3;
     satelliteGroup.add(ringMesh);
@@ -582,6 +610,15 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
     window.addEventListener('pointerup', onPointerUp);
 
     // 9. Resize Handling
+    // On-demand rendering: the scene only redraws when something actually
+    // changes (initial paint, drag/parallax easing, resize, re-entry).
+    // With no perpetual idle animation, an untouched hero costs nothing on
+    // the main thread and reduced-motion users get a single static frame.
+    let needsRender = true;
+    const requestRender = () => {
+      needsRender = true;
+    };
+
     const handleResize = () => {
       if (!container || !renderer) return;
       const w = container.clientWidth;
@@ -589,51 +626,60 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      requestRender();
     };
     window.addEventListener('resize', handleResize);
 
-    // 10. Animation Loop with IntersectionObserver
+    // A hidden tab can have its drawing buffer discarded: repaint on return.
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') requestRender();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    // 10. On-Demand Render Loop with IntersectionObserver
     let isVisible = true;
-    let animationFrameId: number;
+    let animationFrameId = 0;
 
     const observer = new IntersectionObserver(([entry]) => {
       isVisible = entry.isIntersecting;
+      if (isVisible) requestRender(); // repaint when scrolling back into view
     });
     observer.observe(container);
 
-    let clock = new THREE.Clock();
+    // Aim the camera exactly once regardless of motion preference, so the
+    // static/reduced-motion frame is composed correctly.
+    camera.lookAt(0.5, 0.2, 0);
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      if (!isVisible) return;
-
-      const delta = clock.getDelta();
-      const elapsedTime = clock.getElapsedTime();
+      if (!isVisible || document.hidden) return;
 
       if (!prefersReducedMotion) {
-        // Autonomous gentle orbital pitch and roll
-        satelliteGroup.rotation.y += (targetRotationY - satelliteGroup.rotation.y) * 0.06;
-        satelliteGroup.rotation.x += (targetRotationX - satelliteGroup.rotation.x) * 0.06;
+        // Drag inertia + camera parallax, eased lazily to a full stop.
+        const easeRotY = (targetRotationY - satelliteGroup.rotation.y) * 0.06;
+        const easeRotX = (targetRotationX - satelliteGroup.rotation.x) * 0.06;
+        const easeCamX = (targetCameraX - camera.position.x) * 0.04;
+        const easeCamY = (targetCameraY - camera.position.y) * 0.04;
 
-        // Inertial decay when dragging released
-        if (!isDragging) {
-          targetRotationY += Math.sin(elapsedTime * 0.35) * 0.0003;
-          targetRotationX += Math.cos(elapsedTime * 0.25) * 0.0002;
+        const isMoving =
+          isDragging ||
+          Math.abs(easeRotY) > 1e-5 ||
+          Math.abs(easeRotX) > 1e-5 ||
+          Math.abs(easeCamX) > 1e-4 ||
+          Math.abs(easeCamY) > 1e-4;
+
+        if (isMoving) {
+          satelliteGroup.rotation.y += easeRotY;
+          satelliteGroup.rotation.x += easeRotX;
+          camera.position.x += easeCamX;
+          camera.position.y += easeCamY;
+          camera.lookAt(0.5, 0.2, 0);
+          needsRender = true;
         }
-
-        // Internal gyro continuous precision spin
-        gyroKnot.rotation.x += delta * 0.35;
-        gyroKnot.rotation.y += delta * 0.45;
-
-        // Subtle planetary cloud drift
-        planetGroup.rotation.y += delta * 0.012;
-
-        // Camera smooth parallax damping
-        camera.position.x += (targetCameraX - camera.position.x) * 0.04;
-        camera.position.y += (targetCameraY - camera.position.y) * 0.04;
-        camera.lookAt(0.5, 0.2, 0);
       }
 
+      if (!needsRender) return; // idle: skip renderer.render entirely
+      needsRender = false;
       renderer.render(scene, camera);
     };
 
@@ -645,6 +691,7 @@ export const HeroCanvas: React.FC<HeroCanvasProps> = ({ theme, className = '' })
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibility);
       observer.disconnect();
       cancelAnimationFrame(animationFrameId);
 

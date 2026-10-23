@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { GlassBar } from '../common/GlassBar';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { MobileNavDrawer } from './MobileNavDrawer';
@@ -15,9 +16,10 @@ export interface NavbarProps {
   activePath?: string;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, activePath = '#discover' }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileToggleRef = useRef<HTMLButtonElement>(null);
+  const location = useLocation();
   const { count: savedCount } = useSavedReferences();
 
   // Keyboard shortcut: Cmd+K / Ctrl+K for search
@@ -32,58 +34,68 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, activePath = '#dis
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onOpenSearch]);
 
+  const navItems = [
+    { path: '/', label: 'Discover' },
+    { path: '/browse', label: 'Browse' },
+    { path: '/collections', label: 'Collections' },
+    { path: '/saved', label: 'Saved' },
+    { path: '/about', label: 'About' },
+  ] as const;
+
   return (
     <>
       <GlassBar as="header" variant="navbar">
         <div className="container">
           <div className="navbar-inner">
             {/* Left: Brand Identity */}
-            <a href="#discover" className="navbar-brand" aria-label="Anyds Homepage">
+            <Link to="/" className="navbar-brand" aria-label="Anyds Homepage">
               <AnydsLogo variant="full" height={28} className="navbar-brand-logo" />
               <span className="navbar-brand-meta">Curated Motion</span>
-            </a>
+            </Link>
 
             {/* Center: Desktop Navigation Links */}
             <nav className="navbar-links" aria-label="Primary Navigation">
-              <a
-                href="#discover"
-                className={`navbar-link ${activePath === '#discover' ? 'is-active' : ''}`}
-              >
-                <span>Discover</span>
-              </a>
-              <a
-                href="#discover"
-                className={`navbar-link ${activePath === '#browse' ? 'is-active' : ''}`}
-              >
-                <span>Browse</span>
-              </a>
-              <a
-                href="#collections"
-                className={`navbar-link ${activePath === '#collections' ? 'is-active' : ''}`}
-              >
-                <span>Collections</span>
-              </a>
-              <a
-                href="#saved"
-                className={`navbar-link ${activePath === '#saved' ? 'is-active' : ''}`}
-              >
-                <span>Saved</span>
-                {savedCount > 0 && (
-                  <span className="navbar-counter-badge" aria-label={`${savedCount} saved references`}>
-                    {savedCount}
-                  </span>
-                )}
-              </a>
-              <a
-                href="#about"
-                className={`navbar-link ${activePath === '#about' ? 'is-active' : ''}`}
-              >
-                <span>About</span>
-              </a>
+              {navItems.map(({ path, label }) => (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`navbar-link ${location.pathname === path ? 'is-active' : ''}`}
+                >
+                  <span>{label}</span>
+                  {label === 'Saved' && savedCount > 0 && (
+                    <span className="navbar-counter-badge" aria-label={`${savedCount} saved references`}>
+                      {savedCount}
+                    </span>
+                  )}
+                </Link>
+              ))}
             </nav>
 
-            {/* Right: Theme Toggle & Mobile Menu Toggle */}
+            {/* Right: Search, Theme Toggle & Mobile Menu Toggle */}
             <div className="navbar-actions">
+              {/* Search Trigger — opens the global search modal (also ⌘K / Ctrl+K) */}
+              <button
+                type="button"
+                className="btn btn--secondary btn--icon navbar-search-toggle"
+                onClick={() => onOpenSearch?.()}
+                aria-label="Open archive search"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </button>
+
               {/* Theme Toggle */}
               <ThemeToggle />
 

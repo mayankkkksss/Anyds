@@ -31,14 +31,11 @@ export const ThematicCollections: React.FC<ThematicCollectionsProps> = ({
       aria-label="Editorial Thematic Collections"
     >
       <div className="container">
-        {/* Editorial Section Header with Chapter 03 Numeral */}
+        {/* Editorial Section Header */}
         <div className="collections-header-editorial">
-          <div className="collections-numeral-wrap">
-            <span className="collections-chapter-numeral font-display">03</span>
-          </div>
           <div className="collections-header-text">
             <div className="type-eyebrow" style={{ color: 'var(--color-accent-signal)', marginBottom: '8px' }}>
-              Curated Anthologies · Chapter 03
+              Curated Anthologies
             </div>
             <h2 className="type-h1 collections-title">Curated Collections</h2>
             <p className="type-body collections-subtext" style={{ marginTop: '8px' }}>
@@ -51,7 +48,7 @@ export const ThematicCollections: React.FC<ThematicCollectionsProps> = ({
         {/* Collection Showcase 1: Full-Width Cinematic Banner — Motion with Restraint */}
         {restraintCol && (
           <article
-            className="collection-cinematic-banner liquid-glass glass-card"
+            className="collection-cinematic-banner solid-card"
             onClick={() => onSelectCollection(restraintCol.slug)}
             tabIndex={0}
             role="button"
@@ -88,7 +85,7 @@ export const ThematicCollections: React.FC<ThematicCollectionsProps> = ({
                 <div className="collection-cinematic-tags">
                   <span className="type-meta">CRITICALLY DAMPED</span>
                   <span className="type-meta">·</span>
-                  <span className="type-meta">&lt; 380MS SETTLING</span>
+                  <span className="type-meta">&#60; 380MS SETTLING</span>
                   <span className="type-meta">·</span>
                   <span className="type-meta">ZERO GRATUITOUS BOUNCE</span>
                 </div>
@@ -118,7 +115,7 @@ export const ThematicCollections: React.FC<ThematicCollectionsProps> = ({
           {/* Collection 2: Interface Tactility */}
           {tactilityCol && (
             <article
-              className="collection-story-card collection-story-card--tactility liquid-glass glass-card"
+              className="collection-story-card collection-story-card--tactility solid-card"
               onClick={() => onSelectCollection(tactilityCol.slug)}
               tabIndex={0}
               role="button"
@@ -135,7 +132,7 @@ export const ThematicCollections: React.FC<ThematicCollectionsProps> = ({
                   <div className="collection-tactile-slab collection-tactile-slab--1" />
                   <div className="collection-tactile-slab collection-tactile-slab--2" />
                   <div className="collection-tactile-slab collection-tactile-slab--3">
-                    <span className="font-mono" style={{ fontSize: '11px', color: '#D4EB1A' }}>MASS &amp; MOMENTUM</span>
+                    <span className="font-mono" style={{ fontSize: '11px', color: '#D4EB1A' }}>MASS & MOMENTUM</span>
                   </div>
                 </div>
                 <div className="collection-story-badge-strip">
@@ -159,7 +156,7 @@ export const ThematicCollections: React.FC<ThematicCollectionsProps> = ({
 
                 <div className="collection-story-action">
                   <span className="type-interactive collection-explore-text">
-                    Explore Tactility Studies →
+                    Explore Tactility Studies &rarr;
                   </span>
                 </div>
               </div>
@@ -169,7 +166,7 @@ export const ThematicCollections: React.FC<ThematicCollectionsProps> = ({
           {/* Collection 3: WebGL & Shader Craft */}
           {shaderCol && (
             <article
-              className="collection-story-card collection-story-card--shader liquid-glass glass-card"
+              className="collection-story-card collection-story-card--shader solid-card"
               onClick={() => onSelectCollection(shaderCol.slug)}
               tabIndex={0}
               role="button"
@@ -207,7 +204,7 @@ export const ThematicCollections: React.FC<ThematicCollectionsProps> = ({
 
                 <div className="collection-story-action">
                   <span className="type-interactive collection-explore-text">
-                    Inspect Shader Craft →
+                    Inspect Shader Craft &rarr;
                   </span>
                 </div>
               </div>

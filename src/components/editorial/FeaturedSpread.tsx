@@ -1,17 +1,14 @@
 /**
  * Anyds FeaturedSpread Component — Chapter 02: Featured Studies in Motion
- * Visually inspired by Reference 1 (Pensatori Irrazionali) editorial dual-spreads:
- * - Asymmetrical layout with varied scales and contrasting aspect ratios.
- * - Left: Monumental 16:10 visual feature of "Kinetic Spring Topology" (Rauno Freiberg).
- * - Right: Staggered, vertically offset blueprint card for "Fluid Spatial Navigation" (Emil Kowalski).
- * - Interactive physics canvas simulation and direct recreation blueprint copy action.
+ * Simplified: One primary feature + one compact supporting reference.
+ * Removes live physics canvas, blueprint code block, spatial card stack, spec matrix.
  */
 
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Reference } from '../../types/models';
 import { SourceBadge } from '../common/SourceBadge';
-import { CopyButton } from '../common/CopyButton';
 import { Button } from '../common/Button';
+import { SectionReveal } from '../../motion/SectionReveal';
 
 export interface FeaturedSpreadProps {
   references: Reference[];
@@ -22,8 +19,6 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
   references,
   onSelectReference,
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
   // Find the two prominent featured studies
   const springRef =
     references.find((r) => r.id === 'ref-01' || r.category === 'spring-physics') ||
@@ -33,125 +28,32 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
     references[1] ||
     references[0];
 
-  // Interactive Live Spring Wave Canvas Simulation
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animId: number;
-    let t = 0;
-
-    const render = () => {
-      t += 0.035;
-      const w = canvas.width;
-      const h = canvas.height;
-      ctx.clearRect(0, 0, w, h);
-
-      // Background subtle grid
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      for (let y = 0; y < h; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-      }
-
-      // Harmonic Damped Oscillation Wave
-      ctx.beginPath();
-      ctx.strokeStyle = '#D4EB1A';
-      ctx.lineWidth = 2.5;
-
-      const centerY = h / 2;
-      for (let x = 0; x < w; x += 3) {
-        const progress = x / w;
-        // Damped sine wave: e^(-zeta * omega * t) * cos(omega_d * t)
-        const damping = Math.exp(-progress * 2.8);
-        const y = centerY + Math.sin(progress * 14 - t) * 48 * damping;
-        if (x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-
-      // Ghost Settling Envelope
-      ctx.beginPath();
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
-      ctx.setLineDash([4, 6]);
-      ctx.lineWidth = 1.5;
-      for (let x = 0; x < w; x += 4) {
-        const progress = x / w;
-        const envelope = 48 * Math.exp(-progress * 2.8);
-        const yTop = centerY - envelope;
-        if (x === 0) ctx.moveTo(x, yTop);
-        else ctx.lineTo(x, yTop);
-      }
-      ctx.stroke();
-
-      ctx.beginPath();
-      for (let x = 0; x < w; x += 4) {
-        const progress = x / w;
-        const envelope = 48 * Math.exp(-progress * 2.8);
-        const yBottom = centerY + envelope;
-        if (x === 0) ctx.moveTo(x, yBottom);
-        else ctx.lineTo(x, yBottom);
-      }
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      animId = requestAnimationFrame(render);
-    };
-
-    render();
-    return () => cancelAnimationFrame(animId);
-  }, []);
-
   return (
     <section className="featured-spread-section" aria-label="Featured Motion Studies Editorial">
       <div className="container">
         {/* Editorial Section Header */}
         <div className="featured-spread-header">
-          <div className="featured-spread-numeral-wrap">
-            <span className="featured-spread-numeral font-display">02</span>
-          </div>
           <div className="featured-spread-title-wrap">
             <span className="type-eyebrow" style={{ color: 'var(--color-accent-signal)' }}>
               Curated Masterworks · Direct Dissections
             </span>
             <h2 className="type-h1 featured-spread-title">Featured Studies in Motion</h2>
             <p className="type-body featured-spread-subtext">
-              Direct mathematical formulations, interactive physics models, and frame-by-frame
-              recreation blueprints authored for high-performance production interfaces.
+              Direct mathematical formulations and frame-by-frame recreation blueprints for production interfaces.
             </p>
           </div>
         </div>
 
-        {/* Asymmetrical Editorial Dual-Spread */}
-        <div className="featured-spread-grid">
-          {/* Spread A: Wide 16:10 Primary Showcase */}
+        {/* Asymmetrical Editorial Spread: Primary + Supporting */}
+        <SectionReveal className="featured-spread-grid" start="top 80%">
+          {/* Primary Feature: Large 16:10 Visual + Essential Metadata */}
           {springRef && (
-            <article className="featured-spread-primary liquid-glass glass-card">
+            <article className="featured-spread-primary">
               <div className="featured-stage-wrap">
-                <canvas
-                  ref={canvasRef}
-                  width={640}
-                  height={380}
-                  className="featured-stage-canvas"
-                  aria-label="Harmonic Damped Spring Physics Simulation"
-                />
-                <div className="featured-stage-badge-strip">
+                <div className="featured-stage-poster" aria-hidden="true" />
+                <div className="featured-stage-badge">
                   <span className="type-chip" style={{ background: 'rgba(0,0,0,0.7)', color: '#D4EB1A' }}>
-                    LIVE PHYSICS ζ ≈ 1.00
-                  </span>
-                  <span className="type-meta" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                    60 FPS DAMPED OSCILLATOR
+                    SPRING PHYSICS · ζ ≈ 1.00
                   </span>
                 </div>
               </div>
@@ -178,21 +80,6 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
                 <p className="type-body" style={{ marginBottom: '16px' }}>
                   {springRef.motion.rationale}
                 </p>
-
-                {/* Blueprint Architecture Box with Copy Button */}
-                <div className="featured-blueprint-box">
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                    <span className="type-card-title" style={{ fontSize: '13px', color: 'var(--color-accent-signal)' }}>
-                      Recreation Architecture Brief
-                    </span>
-                    <CopyButton
-                      value={springRef.motion.recreationBrief}
-                      label="Copy Blueprint"
-                      successMessage="Copied spring blueprint"
-                    />
-                  </div>
-                  <pre className="featured-blueprint-code font-mono">{springRef.motion.recreationBrief}</pre>
-                </div>
 
                 <div style={{ marginTop: '20px', display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                   <Button
@@ -230,27 +117,18 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
             </article>
           )}
 
-          {/* Spread B: Offset Staggered Companion Feature */}
+          {/* Supporting Feature: Compact Reference Entry */}
           {spatialRef && (
-            <article className="featured-spread-secondary liquid-glass glass-card">
-              <div className="featured-secondary-header">
-                <span className="type-eyebrow" style={{ color: 'var(--color-accent-signal)' }}>
-                  COMPANION DISSECTION
-                </span>
-                <span className="type-chip font-mono">Δx, Δy FLIP</span>
-              </div>
-
-              <div className="featured-secondary-stage">
-                <div className="featured-spatial-visual">
-                  <div className="featured-spatial-card featured-spatial-card--back" />
-                  <div className="featured-spatial-card featured-spatial-card--mid" />
-                  <div className="featured-spatial-card featured-spatial-card--front">
-                    <span className="font-mono" style={{ fontSize: '12px', color: '#D4EB1A' }}>Z-LAYER 03</span>
-                  </div>
+            <article className="featured-spread-supporting">
+              <div className="featured-supporting-visual" aria-hidden="true">
+                <div className="featured-supporting-layer featured-supporting-layer--1" />
+                <div className="featured-supporting-layer featured-supporting-layer--2" />
+                <div className="featured-supporting-layer featured-supporting-layer--3">
+                  <span className="font-mono" style={{ fontSize: '10px', color: 'var(--color-accent-signal)' }}>Z-LAYER</span>
                 </div>
               </div>
 
-              <div className="featured-secondary-body">
+              <div className="featured-supporting-body">
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
                   <SourceBadge
                     platform={spatialRef.provenance.platform}
@@ -261,7 +139,7 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
                   <span className="type-meta">{spatialRef.motion.trigger}</span>
                 </div>
 
-                <h3 className="type-card-title" style={{ fontSize: '18px', marginTop: '10px' }}>
+                <h3 className="type-card-title" style={{ marginTop: '10px' }}>
                   {spatialRef.title}
                 </h3>
 
@@ -273,22 +151,7 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
                   {spatialRef.motion.rationale}
                 </p>
 
-                <div className="featured-spec-matrix">
-                  <div className="featured-spec-item">
-                    <span className="type-meta">VELOCITY</span>
-                    <span className="type-interactive font-mono">1.2px/ms Handoff</span>
-                  </div>
-                  <div className="featured-spec-item">
-                    <span className="type-meta">MASS</span>
-                    <span className="type-interactive font-mono">m = 1.00</span>
-                  </div>
-                  <div className="featured-spec-item">
-                    <span className="type-meta">SETTLE</span>
-                    <span className="type-interactive font-mono">&lt; 320ms</span>
-                  </div>
-                </div>
-
-                <div style={{ marginTop: '18px' }}>
+                <div style={{ marginTop: '16px' }}>
                   <Button
                     variant="secondary"
                     size="sm"
@@ -304,7 +167,7 @@ export const FeaturedSpread: React.FC<FeaturedSpreadProps> = ({
               </div>
             </article>
           )}
-        </div>
+        </SectionReveal>
       </div>
     </section>
   );

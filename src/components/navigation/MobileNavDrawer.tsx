@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { ThemeToggle } from '../common/ThemeToggle';
 import { AnydsLogo } from '../common/AnydsLogo';
 
@@ -140,38 +141,38 @@ export const MobileNavDrawer: React.FC<MobileNavDrawerProps> = ({
         <nav className="mobile-nav-body" aria-label="Mobile Navigation Links">
           <ul className="mobile-nav-links">
             <li>
-              <a href="#discover" className="mobile-nav-link" onClick={handleLinkClick}>
+              <Link to="/" className="mobile-nav-link" onClick={handleLinkClick}>
                 <span>Discover</span>
                 <span className="type-meta">Featured highlights</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#discover" className="mobile-nav-link" onClick={handleLinkClick}>
+              <Link to="/browse" className="mobile-nav-link" onClick={handleLinkClick}>
                 <span>Browse</span>
                 <span className="type-meta">Full archive</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#collections" className="mobile-nav-link" onClick={handleLinkClick}>
+              <Link to="/collections" className="mobile-nav-link" onClick={handleLinkClick}>
                 <span>Collections</span>
                 <span className="type-meta">5 Themes</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#saved" className="mobile-nav-link" onClick={handleLinkClick}>
+              <Link to="/saved" className="mobile-nav-link" onClick={handleLinkClick}>
                 <span>Saved References</span>
                 {savedCount > 0 ? (
                   <span className="navbar-counter-badge">{savedCount}</span>
                 ) : (
                   <span className="type-meta">0 saved</span>
                 )}
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#about" className="mobile-nav-link" onClick={handleLinkClick}>
+              <Link to="/about" className="mobile-nav-link" onClick={handleLinkClick}>
                 <span>About</span>
                 <span className="type-meta">Curation & provenance</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

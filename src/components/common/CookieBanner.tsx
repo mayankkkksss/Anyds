@@ -49,7 +49,7 @@ export const CookieBanner: React.FC = () => {
 
   return (
     <aside
-      className="cookie-banner liquid-glass"
+      className="cookie-banner solid-card"
       role="region"
       aria-label="Privacy & Local Storage Notice"
     >
