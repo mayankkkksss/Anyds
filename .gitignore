@@ -72,3 +72,6 @@ Thumbs.db
 .aider*
 # Playwright CLI output (may contain credentials)
 .playwright-cli/
+
+.vercel
+.netlify

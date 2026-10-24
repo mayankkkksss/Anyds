@@ -1,5 +1,5 @@
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { mockReferences } from '../data';
 import { DiscoveryGrid } from '../components/discovery/DiscoveryGrid';
 import { useSavedReferences } from '../hooks/useSavedReferences';
@@ -39,15 +39,15 @@ export function SavedPage() {
           </div>
           <h2 className="type-h1" style={{ marginBottom: 'var(--space-sm)' }}>No saved references yet</h2>
           <p className="type-body" style={{ maxWidth: '440px', margin: '0 auto var(--space-lg)' }}>
-            You haven't bookmarked any motion studies yet. Click the bookmark icon on any card to curate your local workbench.
+            You haven't bookmarked any motion studies yet. Click the Save button on any reference card to curate your personal workbench.
           </p>
-          <a href="/browse" className="btn btn--primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+          <Link to="/browse" className="btn btn--primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
             <span>Browse the Archive</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <line x1="12" y1="5" x2="12" y2="19" />
               <polyline points="19 12 12 19 5 12" />
             </svg>
-          </a>
+          </Link>
         </div>
       </section>
     );

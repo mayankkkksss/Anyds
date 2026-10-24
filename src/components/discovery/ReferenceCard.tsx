@@ -74,7 +74,7 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
           </div>
         </div>
 
-        {/* Top Overlay: Save Button Only */}
+        {/* Top Overlay: Labeled Save Button per product specification */}
         <div className="reference-card-media-overlay">
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <button
@@ -85,8 +85,8 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
               title={saved ? 'Saved' : 'Save reference'}
             >
               <svg
-                width="16"
-                height="16"
+                width="14"
+                height="14"
                 viewBox="0 0 24 24"
                 fill={saved ? 'currentColor' : 'none'}
                 stroke="currentColor"
@@ -97,6 +97,7 @@ export const ReferenceCard: React.FC<ReferenceCardProps> = ({
               >
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
               </svg>
+              <span className="reference-card-save-label">{saved ? 'Saved' : 'Save'}</span>
             </button>
           </div>
         </div>

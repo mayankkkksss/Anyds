@@ -51,8 +51,8 @@ export function Footer() {
             </div>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
               <li><a href="/about" className="type-interactive" style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}>Attribution Policy</a></li>
-              <li><span className="type-meta">Design System Spec Rev. 9</span></li>
-              <li><span className="type-meta">100% WCAG AAA Compliant</span></li>
+              <li><span className="type-meta">Verified Contrast Tokens</span></li>
+              <li><span className="type-meta">Client-Side Persistence</span></li>
               <li><span className="type-meta">Zero Tracking Cookies</span></li>
             </ul>
           </div>

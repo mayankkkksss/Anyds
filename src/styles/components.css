@@ -950,28 +950,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
-  min-height: 36px;
+  gap: 6px;
+  padding: 6px 12px;
+  min-height: 32px;
   border-radius: var(--radius-xs);
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
   color: var(--color-text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   transition:
     background var(--transition-fast),
     color var(--transition-fast),
+    border-color var(--transition-fast),
     transform var(--transition-fast);
 }
 
 .reference-card-save-btn:hover {
   color: var(--color-text-primary);
-  transform: scale(1.08);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
 }
 
 .reference-card-save-btn.is-saved {
   color: var(--color-accent-signal);
   border-color: var(--color-accent-signal);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.reference-card-save-label {
+  display: inline-block;
+  line-height: 1;
 }
 
 .reference-card-body {
@@ -1051,10 +1065,7 @@
 .hero-section {
   position: relative;
   width: 100%;
-  min-height: 70vh;
-  min-height: 70dvh;
-  min-height: 520px;
-  max-height: 720px;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -2827,6 +2838,192 @@
   gap: var(--space-md);
   font-size: 11px;
   font-family: var(--font-mono);
+  color: var(--color-text-dim);
+}
+
+/* --------------------------------------------------------------------------
+   16. Skeleton Card Loading States & Shimmer
+   -------------------------------------------------------------------------- */
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-card {
+  pointer-events: none;
+  border-color: var(--color-border-subtle);
+}
+
+.skeleton-media-stage {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-subtle) 25%,
+    rgba(255, 255, 255, 0.06) 50%,
+    var(--color-surface-subtle) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.8s ease-in-out infinite;
+}
+
+.skeleton-body {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.skeleton-header-row,
+.skeleton-footer-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: var(--radius-xs);
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-subtle) 25%,
+    rgba(255, 255, 255, 0.06) 50%,
+    var(--color-surface-subtle) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.8s ease-in-out infinite;
+}
+
+.skeleton-line--pill { width: 48px; height: 18px; border-radius: 999px; }
+.skeleton-line--chip { width: 64px; height: 18px; border-radius: 999px; }
+.skeleton-line--title { width: 75%; height: 18px; margin-top: 4px; }
+.skeleton-line--text { width: 100%; height: 12px; }
+.skeleton-line--text-short { width: 60%; height: 12px; }
+.skeleton-line--tag { width: 52px; height: 20px; border-radius: 4px; }
+.skeleton-line--meta { width: 68px; height: 12px; margin-left: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-media-stage,
+  .skeleton-line {
+    animation: none;
+    background: var(--color-surface-subtle);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   17. Reference Detail Page & Sticky Provenance Rail
+   -------------------------------------------------------------------------- */
+.detail {
+  display: grid;
+  gap: var(--space-2xl);
+  grid-template-columns: 1fr;
+  padding-block: var(--space-xl) var(--space-4xl);
+}
+
+@media (min-width: 1024px) {
+  .detail {
+    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+    align-items: start;
+    gap: var(--space-2xl);
+  }
+  .rail {
+    position: sticky;
+    top: calc(var(--navbar-height, 80px) + 24px);
+  }
+}
+
+.detail__article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  min-width: 0;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-xl);
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+}
+
+.rail__sec {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rail__sec + .rail__sec {
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.rail__k {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: 0.1em;
+  color: var(--color-accent-signal);
+  text-transform: uppercase;
+}
+
+.spine {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.spine__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  gap: 12px;
+}
+
+.spine__k {
+  font-family: var(--font-mono);
+  color: var(--color-text-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.spine__v {
+  color: var(--color-text-primary);
+  text-align: right;
+  word-break: break-all;
+}
+
+.spine__v a {
+  color: var(--color-accent-signal);
+  text-decoration: none;
+}
+
+.spine__v a:hover {
+  text-decoration: underline;
+}
+
+/* Coordinates bar in Hero */
+.hero-coordinates-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
   color: var(--color-text-dim);
 }
 

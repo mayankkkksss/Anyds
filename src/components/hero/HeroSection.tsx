@@ -169,9 +169,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               size="lg"
               onClick={onExploreClick}
               className="hero-cta-btn"
-              aria-label="Explore the motion references collection"
+              aria-label="Explore Collection of motion references"
             >
-              <span>Explore the Archive</span>
+              <span>Explore Collection</span>
               <svg
                 width="16"
                 height="16"
@@ -196,20 +196,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   onSecondaryClick();
                   return;
                 }
-                const target = document.getElementById('collections');
+                const target = document.getElementById('discover');
                 if (target) {
                   target.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                  // No collections section on this page: go to the collections route
-                  // instead of leaving a button that silently does nothing.
-                  window.location.assign('/collections');
+                  window.location.assign('/browse');
                 }
               }}
               className="hero-secondary-btn"
-              aria-label="View curated collections"
+              aria-label="Search Library (⌘K)"
             >
-              <span>View Collections</span>
+              <span>Search Library (⌘K)</span>
             </Button>
+          </div>
+
+          {/* Curatorial Coordinates Metadata Strip */}
+          <div className="hero-coordinates-bar" aria-label="Curatorial System Status">
+            <span>ORBIT: 412 KM ALTITUDE</span>
+            <span aria-hidden="true">·</span>
+            <span>INCLINATION: 51.6°</span>
+            <span aria-hidden="true">·</span>
+            <span>12 VERIFIED STUDIES</span>
+            <span aria-hidden="true">·</span>
+            <span style={{ color: 'var(--color-accent-signal)' }}>CRITICALLY DAMPED</span>
           </div>
 
           {/* Scroll Indicator */}

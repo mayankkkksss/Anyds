@@ -45,7 +45,7 @@ export function AboutPage() {
             <article style={{ padding: 'var(--space-lg)', background: 'var(--color-surface-card)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-card)' }}>
               <h3 className="type-card-title" style={{ marginBottom: 'var(--space-sm)' }}>Zero Tracking</h3>
               <p className="type-body">
-                Anyds operates 100% client-side with zero backend databases or user accounts. Your saved references and light/dark theme preference are persisted directly in your browser's localStorage. No tracking cookies, telemetry pixels, or cross-site fingerprinting scripts are ever loaded.
+                Anyds operates 100% client-side with zero backend databases or user accounts. Your saved references are persisted directly in your browser's localStorage. No tracking cookies, telemetry pixels, or cross-site fingerprinting scripts are ever loaded.
               </p>
             </article>
           </div>
@@ -98,7 +98,7 @@ export function AboutPage() {
             Anyds is an independent, non-commercial project built by and for the motion design community.
           </p>
           <p className="type-meta">
-            Design System Specification Revision 9 - 100% WCAG AAA Compliant - Zero Tracking Cookies
+            Curated Motion System · Verified Color Contrast · Zero Tracking Cookies
           </p>
         </section>
       </section>

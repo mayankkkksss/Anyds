@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark" />
+<title>COMP — Saved References · Anyds (illustrative sample data)</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/design-system.css" />
+<style>
+  .comp-bar { background: var(--inset); border-bottom: 1px solid var(--border-strong);
+    padding: 8px var(--page-margin); font-family: var(--font-mono); font-size: var(--t-meta);
+    letter-spacing: var(--track-meta); color: var(--muted); display: flex; gap: 16px;
+    flex-wrap: wrap; justify-content: space-between; }
+  .comp-bar strong { color: var(--citron); font-weight: 500; }
+  .page-head { padding-block: var(--s-3xl) var(--s-xl); }
+  .state-switch { display: inline-flex; gap: 4px; padding: 4px; background: var(--inset);
+    border: 1px solid var(--border); border-radius: var(--r-full); }
+  .state-switch button { min-height: 36px; padding: 6px 16px; border-radius: var(--r-full);
+    font-size: var(--t-ui); font-weight: 500; color: var(--muted); }
+  .state-switch button[aria-pressed="true"] { background: var(--citron); color: var(--ink); font-weight: 600; }
+  .saved-grid { display: grid; gap: var(--s-lg); grid-template-columns: 1fr; }
+  @media (min-width: 640px)  { .saved-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .saved-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="comp-bar" role="note">
+  <span><strong>PHASE 4 STATIC COMP</strong> — Saved references · populated + empty states (toggle below)</span>
+  <span>localStorage only · never synced · committed illustrative sample data</span>
+</div>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="brand" href="#" aria-label="Anyds home">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+        <circle cx="12" cy="12" r="9" stroke="#F3F4F6" stroke-width="1.5"/>
+        <circle cx="12" cy="12" r="3" fill="#D4EB1A"/>
+        <path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="#F3F4F6" stroke-width="1.5"/>
+      </svg>
+      Anyds
+      <span class="brand__tag">Curated Motion</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="home.html">Discover</a></li>
+      <li><a href="browse.html">Browse</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="saved.html" aria-current="page">Saved</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="btn btn--secondary" type="button" aria-label="Open search (Command or Control + K)">
+        <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/>
+        </svg>
+        <span class="sr">Search</span>
+      </button>
+      <button class="nav__menu" type="button" aria-label="Open navigation menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M2 5h14M2 9h14M2 13h14"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container page-head">
+    <div class="section-head" style="margin-bottom:0">
+      <div>
+        <p class="mono citron">Your library</p>
+        <h1 class="h1 mt-sm">Saved References</h1>
+        <p class="lede mt-md">Stored in this browser only — no account, no sync, no server copy.
+          Clearing site data removes them.</p>
+      </div>
+      <div class="state-switch" role="group" aria-label="COMP state preview">
+        <button type="button" aria-pressed="true" data-state="populated">State: populated</button>
+        <button type="button" aria-pressed="false" data-state="empty">State: empty</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPULATED STATE -->
+  <div class="container" data-panel="populated">
+    <div class="flex" style="justify-content:space-between; margin-bottom:var(--s-lg)">
+      <p class="mono dim" role="status">3 saved · sorted by most recently saved</p>
+      <button class="btn btn--ghost" type="button">Clear all saved</button>
+    </div>
+
+    <div class="saved-grid" style="padding-bottom:var(--s-4xl)">
+      <article class="card" style="cursor:default">
+        <div class="card__media stage stage--sm">
+          <div class="stage__overlay"><span class="badge"><span class="badge__dot" aria-hidden="true"></span>Saved</span></div>
+          <p class="stage__label">Fallback stage</p>
+          <span class="stage__caption"><span><strong>Illustrative</strong> · media missing</span></span>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title"><a href="reference-detail.html" style="text-decoration:none; color:inherit">Kinetic Spring Topology</a></h2>
+          <p class="card__by"><strong>Bastien Allard</strong> · GSAP Showcase</p>
+          <p class="card__why">Velocity handoff into a critically damped spring, zero overshoot.</p>
+          <div class="card__foot">
+            <span class="chip chip--accent">Spring</span><span class="chip">Scroll</span>
+            <button class="card__save" type="button" aria-pressed="true"
+              aria-label="Remove Kinetic Spring Topology from saved references">
+              <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M4 2.5h8v11l-4-3-4 3v-11Z"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" style="cursor:default">
+        <div class="card__media stage stage--sm">
+          <div class="stage__overlay"><span class="badge"><span class="badge__dot" aria-hidden="true"></span>Saved</span></div>
+          <p class="stage__label">Fallback stage</p>
+          <span class="stage__caption"><span><strong>Illustrative</strong> · media missing</span></span>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title"><a href="reference-detail.html" style="text-decoration:none; color:inherit">Momentum Bottom Sheet</a></h2>
+          <p class="card__by"><strong>Emil Kowalski</strong> · Motion Showcase</p>
+          <p class="card__why">Rubber-band drag with logarithmic resistance past the snap point.</p>
+          <div class="card__foot">
+            <span class="chip">Inertia</span><span class="chip">Gesture</span>
+            <button class="card__save" type="button" aria-pressed="true"
+              aria-label="Remove Momentum Bottom Sheet from saved references">
+              <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M4 2.5h8v11l-4-3-4 3v-11Z"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" style="cursor:default">
+        <div class="card__media stage stage--sm">
+          <div class="stage__overlay"><span class="badge"><span class="badge__dot" aria-hidden="true"></span>Saved</span></div>
+          <p class="stage__label">Fallback stage</p>
+          <span class="stage__caption"><span><strong>Illustrative</strong> · media missing</span></span>
+        </div>
+        <div class="card__body">
+          <h2 class="card__title"><a href="reference-detail.html" style="text-decoration:none; color:inherit">Morphing Displacement Grid</a></h2>
+          <p class="card__by"><strong>Yuri Artiukh</strong> · CodePen Showcase</p>
+          <p class="card__why">Simplex-noise vertex warp with pointer texture refraction.</p>
+          <div class="card__foot">
+            <span class="chip">WebGL</span><span class="chip">GLSL</span>
+            <button class="card__save" type="button" aria-pressed="true"
+              aria-label="Remove Morphing Displacement Grid from saved references">
+              <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M4 2.5h8v11l-4-3-4 3v-11Z"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="container" data-panel="empty" hidden>
+    <section class="empty" style="margin-bottom:var(--s-4xl)" aria-labelledby="empty-h">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M6 3.5h12v17l-6-4.5-6 4.5v-17Z"/>
+      </svg>
+      <h2 class="h2" id="empty-h">Nothing saved yet</h2>
+      <p class="p p--m">
+        Save references from any detail page and they will collect here — in this browser only.
+        Nothing is uploaded and no account is needed.
+      </p>
+      <a class="btn btn--primary" href="browse.html">Browse the archive</a>
+      <p class="mono dim mt-sm">Empty state · localStorage key empty</p>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a class="brand" href="home.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="#F3F4F6" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="3" fill="#D4EB1A"/>
+          </svg>
+          Anyds
+        </a>
+        <p class="footer__blurb">
+          A curated archive of interface motion — every entry attributed to its creator and origin.
+        </p>
+      </div>
+      <div>
+        <h2>Navigate</h2>
+        <ul>
+          <li><a href="home.html">Discover</a></li>
+          <li><a href="browse.html">Browse</a></li>
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="saved.html">Saved</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Information</h2>
+        <ul>
+          <li><a href="about.html">About Anyds</a></li>
+          <li><a href="about.html#attribution">Attribution &amp; removal</a></li>
+          <li><a href="about.html#privacy">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__fine">
+      <span>Saved references stay in this browser.</span>
+      <span>Sample data · not production content</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Comp-only state preview toggle.
+  var buttons = document.querySelectorAll('[data-state]');
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      document.querySelectorAll('[data-panel]').forEach(function (p) {
+        p.hidden = p.getAttribute('data-panel') !== b.getAttribute('data-state');
+      });
+    });
+  });
+</script>
+</body>
+</html>
